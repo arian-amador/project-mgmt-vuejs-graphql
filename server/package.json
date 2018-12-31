@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "./node_modules/nodemon/bin/nodemon.js src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arian Amador",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.3",
+    "dotenv": "^6.2.0",
+    "graphql": "^14.0.2",
+    "graphql-yoga": "^1.16.9",
+    "jsonwebtoken": "^8.4.0",
+    "moment": "^2.23.0",
+    "mongoose": "^5.4.1",
+    "nodemailer": "^5.0.0",
+    "nodemon": "^1.18.9"
+  }
+}
