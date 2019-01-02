@@ -4,7 +4,6 @@
     <el-main>
       <div class="container-center">
         <h2>Welcome!</h2>
-        <div>Enter your email address</div>
         <div v-if="error" class="error">{{error}}</div>
 
         <el-form ref="form" :model="form" @submit.native.prevent="capture">

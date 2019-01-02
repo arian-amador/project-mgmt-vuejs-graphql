@@ -3,7 +3,7 @@
     <el-header></el-header>
     <el-main>
       <div class="container-center">
-        <div>Welcome! Finish setting up your account</div>
+        <h2>Welcome! Finish setting up your account</h2>
 
         <div v-if="error" class="error">{{error}}</div>
 

@@ -86,7 +86,22 @@ const resolvers = {
       return { token, user };
     },
 
-    async login(_, { email, password }) {},
+    async login(_, { email, password }) {
+      const user = await User.findOne({ email });
+      if (!user || !user.password) {
+        throw new Error('Unable to authenticate');
+      }
+
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) {
+        throw new Error('Unable to authenticate');
+      }
+
+      const token = jwt.sign({ id: user.id, email: user.email }, SECRET);
+
+      console.log(`Successful Auth: ${user.email}`);
+      return { token, user };
+    },
   },
 
   Date: new GraphQLScalarType({

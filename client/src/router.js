@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 import Home from './views/Home.vue';
 import Signup from './views/Signup.vue';
+import Login from './views/Login.vue';
+import Workspace from './views/Workspace.vue';
 
 Vue.use(Router);
 
@@ -19,6 +22,18 @@ const router = new Router({
       name: 'signup',
       component: Signup,
       meta: { title: 'Projects - Sign Up' },
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: { title: 'Projects - Login' },
+    },
+    {
+      path: '/workspace',
+      name: 'workspace',
+      component: Workspace,
+      meta: { title: 'Projects - Workspace' },
     },
   ],
 });
