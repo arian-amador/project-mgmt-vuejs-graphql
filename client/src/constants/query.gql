@@ -7,3 +7,23 @@ mutation CaptureEmail($email: String!) {
     createdAt
   }
 }
+
+mutation SignUp(
+  $id: String!
+  $firstName: String!
+  $lastName: String!
+  $password: String!
+) {
+  signUp(
+    id: $id
+    firstName: $firstName
+    lastName: $lastName
+    password: $password
+  ) {
+    token
+    user {
+      id
+      email
+    }
+  }
+}

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { CaptureEmail } from "../constants/query.gql";
+import { CaptureEmail } from "@/constants/query.gql";
 import { validateEmail } from "@/helpers/helpers";
 
 export default {
