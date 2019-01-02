@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    capture() {
+    async capture() {
       const { email } = this.form;
 
       if (!email || !validateEmail(email)) {
@@ -52,7 +52,7 @@ export default {
         return;
       }
 
-      this.$apollo
+      await this.$apollo
         .mutate({
           mutation: CaptureEmail,
           variables: { email }
