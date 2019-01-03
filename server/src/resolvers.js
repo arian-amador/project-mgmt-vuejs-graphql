@@ -31,10 +31,26 @@ function randomAvatar(arr) {
   return avatarColors[Math.floor(avatarColors.length * Math.random())];
 }
 
+function getUserId(context) {
+  const auth = context.request.get('Authorization');
+
+  if (auth) {
+    const token = auth.replace('Bearer ', '');
+    const { id } = jwt.verify(token, SECRET);
+
+    return id;
+  }
+
+  throw new Error('Not Authorized');
+}
+
 const resolvers = {
   Query: {
-    test(_, args, context) {
-      return 'It Works!';
+    async getTeam(_, args, context) {
+      const userId = getUserId(context);
+      const user = await User.findById(userId);
+      console.log(user.team);
+      return await Team.findById(user.team);
     },
   },
   Mutation: {

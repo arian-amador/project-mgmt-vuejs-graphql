@@ -41,6 +41,8 @@ export default {
   },
   methods: {
     login() {
+      this.$apollo.provider.clients.defaultClient.cache.reset();
+
       const { email, password } = this.form;
       if (!(email || password)) {
         this.error = "Please fill all required fields";

@@ -1,3 +1,10 @@
+query GetTeam {
+  getTeam {
+    id
+    name
+  }
+}
+
 mutation CaptureEmail($email: String!) {
   captureEmail(email: $email) {
     id

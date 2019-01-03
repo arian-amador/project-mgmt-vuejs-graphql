@@ -43,6 +43,8 @@ export default {
   },
   methods: {
     async signup() {
+      this.$apollo.provider.clients.defaultClient.cache.reset();
+
       const { firstName, lastName, password } = this.form;
       if (!(firstName && lastName && password)) {
         this.error = "Please complete the form";
@@ -60,12 +62,10 @@ export default {
           }
         })
         .then(({ data: { signUp } }) => {
-          console.log(signUp);
-
           const id = signUp.user.id;
           const token = signUp.token;
           this.saveUserData(id, token);
-          console.log(`Success: ${id}, ${token}`);
+          this.$router.push({ name: "workspace" });
         })
         .catch(error => {
           this.error = "Error finishing up signup";

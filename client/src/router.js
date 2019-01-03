@@ -15,7 +15,7 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: { title: 'Projects - Home' },
+      meta: { title: 'Projects - Home', redirect: true },
     },
     {
       path: '/signup/:id',
@@ -33,9 +33,27 @@ const router = new Router({
       path: '/workspace',
       name: 'workspace',
       component: Workspace,
-      meta: { title: 'Projects - Workspace' },
+      meta: { title: 'Projects - Workspace', requiresAuth: true },
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const auth = localStorage.getItem('user-id');
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!auth) {
+      next('login');
+    }
+  }
+
+  if (to.matched.some(record => record.meta.redirect)) {
+    if (auth) {
+      next('workspace');
+    }
+  }
+
+  next();
 });
 
 router.afterEach((to, from) => {
