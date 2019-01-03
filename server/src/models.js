@@ -45,10 +45,19 @@ const User = buildModel('User', {
   status: String,
 });
 
+const Group = buildModel('Group', {
+  team: { type: ObjectId, ref: 'Team' },
+  name: String,
+  initials: String,
+  avatarColor: String,
+  users: [{ type: ObjectId, ref: 'User' }],
+});
+
 const Team = Folder.discriminator('Team', new Schema({}, { timestamps: true }));
 
 module.exports = {
   Folder: Folder,
   Team: Team,
   User: User,
+  Group: Group,
 };

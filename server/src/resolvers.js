@@ -1,5 +1,5 @@
 const { GraphQLScalarType } = require('graphql');
-const { User, Team } = require('./models');
+const { User, Team, Folder, Group } = require('./models');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -49,8 +49,29 @@ const resolvers = {
     async getTeam(_, args, context) {
       const userId = getUserId(context);
       const user = await User.findById(userId);
-      console.log(user.team);
       return await Team.findById(user.team);
+    },
+    async getFolders(_, { parent }, context) {
+      const userId = getUserId(context);
+      if (parent) {
+        return await Folder.find({ parent });
+      } else {
+        const user = await User.findById(userId);
+        const groups = await Group.find({ users: ObjectId(userId) }, '_id');
+        const ids = groups
+          .map(o => o._id)
+          .concat(
+            ['External User', 'Collaborator'].includes(user.role)
+              ? [ObjectId(userId)]
+              : [ObjectId(userId), user.team]
+          );
+        return await Folder.find({ 'shareWith.item': ids }).populate(
+          'shareWith'
+        );
+      }
+    },
+    async getFolder(_, { id }, context) {
+      return await Folder.findById(id).populate('shareWith');
     },
   },
   Mutation: {

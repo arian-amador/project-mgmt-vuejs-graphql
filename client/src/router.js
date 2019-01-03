@@ -5,6 +5,8 @@ import Home from './views/Home.vue';
 import Signup from './views/Signup.vue';
 import Login from './views/Login.vue';
 import Workspace from './views/Workspace.vue';
+import Folder from './views/Folder.vue';
+import FolderDetail from './views/FolderDetail.vue';
 
 Vue.use(Router);
 
@@ -34,6 +36,20 @@ const router = new Router({
       name: 'workspace',
       component: Workspace,
       meta: { title: 'Projects - Workspace', requiresAuth: true },
+      children: [
+        {
+          path: 'folder/:id',
+          component: Folder,
+          props: true,
+          children: [
+            {
+              path: '',
+              name: 'folder',
+              component: FolderDetail,
+            },
+          ],
+        },
+      ],
     },
   ],
 });
