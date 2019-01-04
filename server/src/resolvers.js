@@ -4,6 +4,9 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+
 const SECRET = process.env.SECRET;
 
 function randomAvatar(arr) {
@@ -49,12 +52,14 @@ const resolvers = {
     async getTeam(_, args, context) {
       const userId = getUserId(context);
       const user = await User.findById(userId);
+
       return await Team.findById(user.team);
     },
     async getFolders(_, { parent }, context) {
       const userId = getUserId(context);
+      let folders;
       if (parent) {
-        return await Folder.find({ parent });
+        folders = await Folder.find({ parent });
       } else {
         const user = await User.findById(userId);
         const groups = await Group.find({ users: ObjectId(userId) }, '_id');
@@ -65,10 +70,11 @@ const resolvers = {
               ? [ObjectId(userId)]
               : [ObjectId(userId), user.team]
           );
-        return await Folder.find({ 'shareWith.item': ids }).populate(
+        folders = await Folder.find({ 'shareWith.item': ids }).populate(
           'shareWith'
         );
       }
+      return folders;
     },
     async getFolder(_, { id }, context) {
       return await Folder.findById(id).populate('shareWith');
@@ -138,6 +144,24 @@ const resolvers = {
 
       console.log(`Successful Auth: ${user.email}`);
       return { token, user };
+    },
+
+    async createFolder(_, { parent, name }, context) {
+      const userId = getUserId(context);
+      const folder = await Folder.create({
+        name,
+        parent: parent || undefined,
+        shareWith: parent
+          ? []
+          : [
+              {
+                kind: 'Team',
+                item: (await User.findById(userId)).team,
+              },
+            ],
+      });
+
+      return await Folder.findById(folder.id).populate('shareWith.item');
     },
   },
 

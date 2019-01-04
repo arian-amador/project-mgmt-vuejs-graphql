@@ -5,7 +5,6 @@ fragment FolderFields on Folder {
   description
   shareWith
 }
-
 query GetFolders($parent: String) {
   getFolders(parent: $parent) {
     ...FolderFields
@@ -62,5 +61,11 @@ mutation Login($email: String!, $password: String!) {
       id
       email
     }
+  }
+}
+
+mutation CreateFolder($parent: String, $name: String!) {
+  createFolder(parent: $parent, name: $name) {
+    ...FolderFields
   }
 }
