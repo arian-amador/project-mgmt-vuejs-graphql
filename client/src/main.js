@@ -64,7 +64,7 @@ Vue.use(ElementUI);
 
 new Vue({
   router,
-  provide: apolloProvider.provide(),
+  apolloProvider,
   store,
   render: h => h(App),
 }).$mount('#app');
