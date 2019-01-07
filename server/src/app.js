@@ -1,6 +1,8 @@
-const { GraphQLServer } = require('graphql-yoga');
-const mongoose = require('mongoose');
 require('dotenv').config();
+
+import { GraphQLServer } from 'graphql-yoga';
+
+const mongoose = require('mongoose');
 const resolvers = require('./resolvers');
 
 mongoose.connect(

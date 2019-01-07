@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema } from 'mongoose';
+
 const ObjectId = Schema.Types.ObjectId;
 const buildModel = require('./models/utils');
 

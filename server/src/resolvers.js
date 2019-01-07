@@ -1,9 +1,9 @@
-const { GraphQLScalarType } = require('graphql');
-const { User, Team, Folder, Group } = require('./models');
-const moment = require('moment');
+import { GraphQLScalarType } from 'graphql';
+import { User, Team, Folder, Group } from './models';
+import { moment } from 'moment';
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -141,8 +141,6 @@ const resolvers = {
       }
 
       const token = jwt.sign({ id: user.id, email: user.email }, SECRET);
-
-      console.log(`Successful Auth: ${user.email}`);
       return { token, user };
     },
 
